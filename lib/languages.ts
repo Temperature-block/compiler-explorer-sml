@@ -873,6 +873,17 @@ const definitions: Record<LanguageKey, LanguageDefinition> = {
         previewFilter: null,
         monacoDisassembly: null,
     },
+    sml: {
+        name: 'standard meta language',
+        monaco: 'sml',
+        extensions: ['.sml'],
+        alias: [],
+        logoUrl: null,
+        logoUrlDark: null,
+        formatter: null,
+        previewFilter: null,
+        monacoDisassembly: null,
+    },
 };
 
 export const languages = Object.fromEntries(

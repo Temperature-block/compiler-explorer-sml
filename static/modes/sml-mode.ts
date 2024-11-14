@@ -1,4 +1,4 @@
-// Copyright (c) 2018, Compiler Explorer Authors
+// Copyright (c) 2017, Compiler Explorer Authors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -26,73 +26,84 @@ import * as monaco from 'monaco-editor';
 function definition(): monaco.languages.IMonarchLanguage {
     return {
         keywords: [
-            'module',
-            'import',
-            'Start',
-            'where',
-            'otherwise',
-            'definition',
-            'implementation',
-            'from',
-            'class',
-            'instance',
-            'abort',
-            'infix',
-            'infixl',
-            'infixr',
+            'abstype',
+            'and',
+            'andalso',
+            'case',
+            'datatype',
+            'else',
+            'end',
+            'fn',
+            'fun',
+            'functor',
             'if',
-            'True',
-            'False',
+            'in',
+            'infix',
+            'infixr',
+            'let',
+            'local',
+            'nonfix',
+            'op',
+            'open',
+            'orelse',
+            'raise',
+            'rec',
+            'sig',
+            'signature',
+            'struct',
+            'structure',
+            'then',
+            'type',
+            'val',
         ],
 
-        builtintypes: ['Int', 'Real', 'String', 'Char', 'Complex', 'Bool'],
+        builtintypes: ['unit','bool','int','char','string','option','list'],
 
-        operators: ['=', '==', '>=', '<=', '+', '-', '*', '/', '::', ':==', '->', '=:', '=>', '|', '\\\\'],
+        operators: ['+', '-', '*', '/', 'div', 'mod', '~', '=', '<>', '<', '<=', '>', '>=', '::', '@', ':='],
 
-        numbers: /-?[0-9.]/,
+        numbers: /-?\d+(\.\d+)?/,
 
         tokenizer: {
             root: [
-                {include: '@whitespace'},
-
-                [/->/, 'operators'],
-
-                [/\|/, 'operators'],
-
-                [/(\w*)(\s?)(::)/, ['keyword', 'white', 'operators']],
-
-                [/[+\-*/=<>\\]/, 'operators'],
-
+                // identifiers and keywords
                 [
-                    /[a-zA-Z_][a-zA-Z0-9_]*/,
+                    /[a-z_$][\w$]*/,
                     {
                         cases: {
-                            '@builtintypes': 'type',
+                            '@builtintypes': 'builtintypes',
                             '@keywords': 'keyword',
-                            '@default': '',
+                            '@default': 'identifier',
                         },
                     },
                 ],
 
-                [/[()[\],:]/, 'delimiter'],
+                {include: '@whitespace'},
 
                 [/@numbers/, 'number'],
+
+                [/[+\-*/=<>$@^|&!~:]/, 'operators'],
+
+                [/\b(div|mod)\b/, 'operators'],
 
                 [/(")(.*)(")/, ['string', 'string', 'string']],
             ],
 
-            comment: [],
+
+            comment: [
+                [/[^(*]+/, 'comment'],
+                [/\*\)/, 'comment', '@pop'],
+            ],
 
             whitespace: [
                 [/[ \t\r\n]+/, 'white'],
-                [/\/\*/, 'comment', '@comment'],
-                [/\/\/.*$/, 'comment'],
+                [/\(\*/, 'comment', '@comment'],
             ],
+
         },
     };
 }
 
-monaco.languages.register({id: 'clean'});
-monaco.languages.setMonarchTokensProvider('clean', definition());
+monaco.languages.register({id: 'sml'});
+monaco.languages.setMonarchTokensProvider('sml', definition());
 
 export {};

@@ -1,4 +1,4 @@
-// Copyright (c) 2021, Compiler Explorer Authors
+// Copyright (c) 2022, Compiler Explorer Authors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -22,48 +22,28 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-import './ada-mode';
-import './asm6502-mode';
-import './asm-mode';
-import './asmruby-mode';
-import './c3-mode';
-import './carbon-mode';
-import './clean-mode';
-import './cmake-mode';
-import './cobol-mode';
-import './cppcircle-mode';
-import './cpp-for-opencl-mode';
-import './cppfront-mode';
-import './cppp-mode';
-import './cppx-blue-mode';
-import './cppx-gold-mode';
-import './crystal-mode';
-import './cuda-mode';
-import './d-mode';
-import './no-highlight-mode';
-import './erlang-mode';
-import './fortran-mode';
-import './gccdump-rtl-gimple-mode';
-import './glsl-mode';
-import './haskell-mode';
-import './hlsl-mode';
-import './hook-mode';
-import './hylo-mode';
-import './ispc-mode';
-import './jakt-mode';
-import './llvm-ir-mode';
-import './mlir-mode';
-import './modula2-mode';
-import './nc-mode';
-import './nim-mode';
-import './ocaml-mode';
-import './openclc-mode';
-import './ptx-mode';
-import './sml-mode';
-import './spice-mode';
-import './spirv-mode';
-import './tablegen-mode';
-import './v-mode';
-import './vala-mode';
-import './wat-mode';
-import './zig-mode';
+import type {ParseFiltersAndOutputOptions} from '../../types/features/filters.interfaces.js';
+import {BaseCompiler} from '../base-compiler.js';
+
+import path from 'path';
+
+export class SmlCompiler extends BaseCompiler {
+  static get key() {
+    return 'sml';
+  }
+
+  override optionsForFilter(filters: ParseFiltersAndOutputOptions,outputFilename: string, userOptions?: string[]) {
+    filters.execute = true;
+    filters.binary = true;
+        return ['-link-opt','-L/opt/compiler-explorer/libs/gmplib/libs/lib','-codegen', 'llvm', '-cc', '/opt/compiler-explorer/clang-16.0.0/bin/clang', '-cc-opt', '/opt/compiler-explorer/libs/gmplib/libs/include', '-llvm-as', '/opt/compiler-explorer/clang-16.0.0/bin/llvm-as', '-llvm-llc', '/opt/compiler-explorer/clang-16.0.0/bin/llc','-llvm-opt','/opt/compiler-explorer/clang-16.0.0/bin/opt']
+    }
+
+    override getOutputFilename(dirPath: string, outputFilebase: string, key?: any): string {
+        return path.join(dirPath, 'example');
+    }
+
+    override getSharedLibraryPathsAsArguments() {
+        return [];
+    }
+
+}

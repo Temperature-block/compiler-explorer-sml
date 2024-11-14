@@ -122,6 +122,7 @@ export {RustcCgGCCCompiler} from './rustc-cg-gcc.js';
 export {RustCompiler} from './rust.js';
 export {ScalaCompiler} from './scala.js';
 export {SdccCompiler} from './sdcc.js';
+export {SmlCompiler} from './sml.js';
 export {SolidityCompiler} from './solidity.js';
 export {SolidityZKsyncCompiler} from './solidity-zksync.js';
 export {SpiceCompiler} from './spice.js';
